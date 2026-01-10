@@ -2,33 +2,33 @@
 
 # @timo-bank/nestjs
 
-NestJS module for Timo Bank SDK integration.
+Module NestJS để tích hợp SDK Timo Bank.
 
-> **Warning**: This is an unofficial package. See [DISCLAIMER](../../DISCLAIMER.md).
+> **Cảnh báo**: Đây là package không chính thức. Xem [TUYÊN BỐ MIỄN TRỪ](../../DISCLAIMER.vi.md).
 
-## Installation
+## Cài đặt
 
 ```bash
 npm install @timo-bank/core @timo-bank/nestjs
 ```
 
-## Setup
+## Thiết lập
 
-First, run the core setup CLI:
+Trước tiên, chạy CLI thiết lập core:
 
 ```bash
 npx @timo-bank/core setup
 ```
 
-Add the credential token to your `.env`:
+Thêm credential token vào file `.env`:
 
 ```env
 TIMO_CREDENTIALS=timo_v1_eyJ1c2VybmFtZSI6...
 ```
 
-## Usage
+## Sử dụng
 
-### Basic Setup
+### Thiết lập cơ bản
 
 ```typescript
 // app.module.ts
@@ -45,7 +45,7 @@ import { TimoModule } from '@timo-bank/nestjs';
 export class AppModule {}
 ```
 
-### Async Configuration
+### Cấu hình bất đồng bộ
 
 ```typescript
 // app.module.ts
@@ -60,7 +60,7 @@ import { TimoModule } from '@timo-bank/nestjs';
       imports: [ConfigModule],
       useFactory: (config: ConfigService) => ({
         credentials: config.get('TIMO_CREDENTIALS')!,
-        autoLogin: true, // default
+        autoLogin: true, // mặc định
       }),
       inject: [ConfigService],
     }),
@@ -69,7 +69,7 @@ import { TimoModule } from '@timo-bank/nestjs';
 export class AppModule {}
 ```
 
-### Using the Client
+### Sử dụng Client
 
 ```typescript
 // payment.service.ts
@@ -96,36 +96,36 @@ export class PaymentService {
 
 ### TimoModuleOptions
 
-| Option | Type | Required | Description |
-|--------|------|----------|-------------|
-| `credentials` | `string` | Yes | Credential token from CLI |
-| `logger` | `Logger` | No | Custom logger |
-| `autoLogin` | `boolean` | No | Auto-login on init (default: true) |
+| Option | Type | Bắt buộc | Mô tả |
+|--------|------|----------|-------|
+| `credentials` | `string` | Có | Credential token từ CLI |
+| `logger` | `Logger` | Không | Logger tùy chỉnh |
+| `autoLogin` | `boolean` | Không | Tự động đăng nhập khi khởi tạo (mặc định: true) |
 
 ### TimoModuleAsyncOptions
 
-| Option | Type | Description |
-|--------|------|-------------|
-| `imports` | `any[]` | Modules to import |
+| Option | Type | Mô tả |
+|--------|------|-------|
+| `imports` | `any[]` | Modules cần import |
 | `useFactory` | `Function` | Factory function |
 | `useClass` | `Type` | Options provider class |
 | `useExisting` | `Type` | Existing options provider |
-| `inject` | `any[]` | Dependencies to inject |
+| `inject` | `any[]` | Dependencies cần inject |
 
 ## Exports
 
-### From @timo-bank/nestjs
+### Từ @timo-bank/nestjs
 
-- `TimoModule` - Main NestJS module
-- `InjectTimo()` - Decorator to inject TimoClient
-- `TimoClient` - Re-exported from core
+- `TimoModule` - Module NestJS chính
+- `InjectTimo()` - Decorator để inject TimoClient
+- `TimoClient` - Re-export từ core
 - Types: `Balance`, `Transaction`, `AccountInfo`, `UserProfile`
 
 ## Auto-Login
 
-By default, the module automatically calls `client.login()` during initialization. This means your service can immediately use the client methods.
+Mặc định, module tự động gọi `client.login()` trong quá trình khởi tạo. Điều này có nghĩa service của bạn có thể sử dụng ngay các phương thức của client.
 
-To disable auto-login:
+Để tắt auto-login:
 
 ```typescript
 TimoModule.forRoot({
@@ -134,7 +134,7 @@ TimoModule.forRoot({
 }),
 ```
 
-Then manually login when needed:
+Sau đó đăng nhập thủ công khi cần:
 
 ```typescript
 @Injectable()
@@ -147,6 +147,6 @@ export class PaymentService implements OnModuleInit {
 }
 ```
 
-## License
+## Giấy phép
 
 MIT

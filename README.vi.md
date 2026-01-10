@@ -2,69 +2,69 @@
 
 # timo-bank-unofficial
 
-Unofficial TypeScript SDK for Timo Bank API integration.
+SDK TypeScript không chính thức để tích hợp API Timo Bank.
 
-> **Warning**: This is an unofficial package. Please read the [DISCLAIMER](./DISCLAIMER.md) before using.
+> **Cảnh báo**: Đây là package không chính thức. Vui lòng đọc [TUYÊN BỐ MIỄN TRỪ](./DISCLAIMER.vi.md) trước khi sử dụng.
 
 ## Packages
 
-| Package | Description |
-|---------|-------------|
-| [@timo-bank/core](./packages/core) | Core SDK with CLI setup |
-| [@timo-bank/nestjs](./packages/nestjs) | NestJS module integration |
+| Package | Mô tả |
+|---------|-------|
+| [@timo-bank/core](./packages/core) | SDK cốt lõi với CLI thiết lập |
+| [@timo-bank/nestjs](./packages/nestjs) | Tích hợp module NestJS |
 
-## Installation
+## Cài đặt
 
 ```bash
-# Core package (standalone usage)
+# Package cốt lõi (sử dụng độc lập)
 npm install @timo-bank/core
 
-# NestJS integration
+# Tích hợp NestJS
 npm install @timo-bank/core @timo-bank/nestjs
 ```
 
-## Quick Start
+## Bắt đầu nhanh
 
-### 1. Setup Device Credentials
+### 1. Thiết lập thông tin xác thực
 
-Run the setup CLI to register your device:
+Chạy CLI thiết lập để đăng ký thiết bị:
 
 ```bash
 npx @timo-bank/core setup
 ```
 
-This will:
-- Prompt for phone number and password
-- Send OTP for device verification
-- Generate a credential token
+CLI sẽ:
+- Yêu cầu nhập số điện thoại và mật khẩu
+- Gửi OTP để xác minh thiết bị
+- Tạo credential token
 
-### 2. Configure Environment
+### 2. Cấu hình môi trường
 
-Add the generated token to your `.env` file:
+Thêm token đã tạo vào file `.env`:
 
 ```env
 TIMO_CREDENTIALS=timo_v1_eyJ1c2VybmFtZSI6...
 ```
 
-### 3. Use the SDK
+### 3. Sử dụng SDK
 
-#### Standalone Usage
+#### Sử dụng độc lập
 
 ```typescript
 import { TimoClient } from '@timo-bank/core';
 
 const client = new TimoClient({
   credentials: process.env.TIMO_CREDENTIALS!,
-  // accountNo is auto-fetched after login, but can be overridden:
+  // accountNo được tự động lấy sau khi đăng nhập, nhưng có thể ghi đè:
   // accountNo: '1234567890123',
 });
 
-// Auto-login (fetches accountNo automatically)
+// Tự động đăng nhập (tự động lấy accountNo)
 await client.login();
 const balance = await client.getBalance();
-console.log(`Balance: ${balance.accountBalance} VND`);
+console.log(`Số dư: ${balance.accountBalance} VND`);
 
-// Get transactions
+// Lấy lịch sử giao dịch
 const transactions = await client.getTransactions({
   fromDate: '01/01/2026',
   toDate: '10/01/2026',
@@ -72,7 +72,7 @@ const transactions = await client.getTransactions({
 });
 ```
 
-#### NestJS Integration
+#### Tích hợp NestJS
 
 ```typescript
 // app.module.ts
@@ -102,7 +102,7 @@ export class PaymentService {
 }
 ```
 
-## API Reference
+## Tham chiếu API
 
 ### TimoClient
 
@@ -110,16 +110,16 @@ export class PaymentService {
 class TimoClient {
   constructor(options: TimoClientOptions);
 
-  // Authentication
+  // Xác thực
   login(): Promise<void>;
   logout(): Promise<void>;
   isAuthenticated(): boolean;
 
-  // Account
+  // Tài khoản
   getAccountInfo(): Promise<AccountInfo>;
   getUserProfile(): Promise<UserProfile>;
 
-  // Balance & Transactions
+  // Số dư & Giao dịch
   getBalance(): Promise<Balance>;
   getTransactions(options?: TransactionOptions): Promise<Transaction[]>;
 }
@@ -146,8 +146,8 @@ interface Transaction {
 }
 
 interface TransactionOptions {
-  fromDate?: string;  // DD/MM/YYYY format
-  toDate?: string;    // DD/MM/YYYY format
+  fromDate?: string;  // Định dạng DD/MM/YYYY
+  toDate?: string;    // Định dạng DD/MM/YYYY
   limit?: number;
 }
 
@@ -177,22 +177,22 @@ interface Account {
 }
 ```
 
-## Security
+## Bảo mật
 
-- Credentials are stored in hashed format
-- Device fingerprinting for authorization
-- All API calls use HTTPS
-- Tokens should be kept secret (never commit to git)
+- Thông tin xác thực được lưu dưới dạng hash
+- Fingerprinting thiết bị để xác thực
+- Tất cả API calls sử dụng HTTPS
+- Token phải được giữ bí mật (không commit vào git)
 
-## Requirements
+## Yêu cầu
 
 - Node.js >= 18.0.0
-- Active Timo Bank account
+- Tài khoản Timo Bank đang hoạt động
 
-## License
+## Giấy phép
 
-MIT - See [LICENSE](./LICENSE)
+MIT - Xem [LICENSE](./LICENSE)
 
-## Disclaimer
+## Tuyên bố miễn trừ
 
-See [DISCLAIMER.md](./DISCLAIMER.md) for important legal notices.
+Xem [DISCLAIMER.vi.md](./DISCLAIMER.vi.md) để biết các thông báo pháp lý quan trọng.

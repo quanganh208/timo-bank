@@ -1,3 +1,5 @@
+[English](./DISCLAIMER.md) | [Tiếng Việt](./DISCLAIMER.vi.md)
+
 # DISCLAIMER
 
 ## Important Legal Notice
