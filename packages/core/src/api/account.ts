@@ -28,15 +28,18 @@ interface AccountPreviewResponse {
 
 interface ProfileResponseData {
   userId: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  legalId?: string;
-  cityName?: string;
-  address?: string;
-  birthday?: string;
+  fullName: string;
+  userEmail?: string;
+  phoneNumber: string;
+  userName?: string;
+  dateOfBirth?: string;
   gender?: string;
+  nationalId?: string;
+  legalId?: string;
+  address?: {
+    cityName?: string;
+    addressName?: string;
+  };
 }
 
 /**
@@ -56,13 +59,12 @@ export async function fetchUserProfile(
   }
 
   const data = response.data;
-  const fullName = `${data.firstName} ${data.lastName}`.trim();
 
   return {
     userId: String(data.userId),
-    phoneNumber: data.phone,
-    fullName: fullName || undefined,
-    email: data.email,
+    phoneNumber: data.phoneNumber,
+    fullName: data.fullName,
+    email: data.userEmail,
   };
 }
 
