@@ -41,7 +41,7 @@ export class HttpClient {
    */
   async get<T = unknown>(path: string, options: RequestOptions = {}): Promise<ApiResponse<T>> {
     // Remove content-type for GET requests
-    const { 'content-type': _, ...getHeaders } = DEFAULT_HEADERS;
+    const { 'content-type': _contentType, ...getHeaders } = DEFAULT_HEADERS;
     const headers = {
       ...getHeaders,
       ...options.headers,

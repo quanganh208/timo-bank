@@ -46,7 +46,7 @@ export interface TimoModuleAsyncOptions extends Pick<ModuleMetadata, 'imports'> 
   /**
    * Use factory function
    */
-  useFactory?: (...args: any[]) => Promise<TimoModuleOptions> | TimoModuleOptions;
+  useFactory?: (...args: unknown[]) => Promise<TimoModuleOptions> | TimoModuleOptions;
 
   /**
    * Inject dependencies for factory
