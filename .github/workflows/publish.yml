@@ -35,14 +35,13 @@ jobs:
       - name: Run tests
         run: pnpm -r test
 
+      - name: Setup npm auth
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+          cat ~/.npmrc
+
       - name: Publish @timo-bank/core
         run: pnpm --filter @timo-bank/core publish --no-git-checks --access public
-        env:
-          NPM_CONFIG_REGISTRY: https://registry.npmjs.org/
-          NPM_CONFIG__AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish @timo-bank/nestjs
         run: pnpm --filter @timo-bank/nestjs publish --no-git-checks --access public
-        env:
-          NPM_CONFIG_REGISTRY: https://registry.npmjs.org/
-          NPM_CONFIG__AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
