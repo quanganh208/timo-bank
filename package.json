@@ -3,6 +3,14 @@
   "version": "0.0.0",
   "private": true,
   "description": "Unofficial Timo Bank SDK - Monorepo",
+  "homepage": "https://github.com/quanganh208/timo-bank#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/quanganh208/timo-bank.git"
+  },
+  "bugs": {
+    "url": "https://github.com/quanganh208/timo-bank/issues"
+  },
   "scripts": {
     "build": "pnpm -r build",
     "dev": "pnpm -r dev",
@@ -10,7 +18,14 @@
     "lint:fix": "eslint packages --ext .ts,.tsx --fix",
     "format": "prettier --write \"packages/**/*.ts\"",
     "clean": "pnpm -r clean",
-    "typecheck": "pnpm -r typecheck"
+    "typecheck": "pnpm -r typecheck",
+    "version:patch": "pnpm -r exec -- npm version patch --no-git-tag-version",
+    "version:minor": "pnpm -r exec -- npm version minor --no-git-tag-version",
+    "version:major": "pnpm -r exec -- npm version major --no-git-tag-version",
+    "release:patch": "pnpm version:patch && pnpm release:tag",
+    "release:minor": "pnpm version:minor && pnpm release:tag",
+    "release:major": "pnpm version:major && pnpm release:tag",
+    "release:tag": "git add packages/*/package.json && git commit -m \"chore: release v$(node -p \"require('./packages/core/package.json').version\")\" && git tag v$(node -p \"require('./packages/core/package.json').version\")"
   },
   "devDependencies": {
     "@types/node": "^20.10.0",

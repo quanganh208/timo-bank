@@ -30,11 +30,19 @@
     "nestjs",
     "module"
   ],
-  "author": "",
+  "author": "quanganh208",
   "license": "MIT",
+  "homepage": "https://github.com/quanganh208/timo-bank#readme",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "git+https://github.com/quanganh208/timo-bank.git",
+    "directory": "packages/nestjs"
+  },
+  "bugs": {
+    "url": "https://github.com/quanganh208/timo-bank/issues"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "dependencies": {
     "@timo-bank/core": "workspace:*"

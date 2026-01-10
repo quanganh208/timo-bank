@@ -37,11 +37,19 @@
     "sdk",
     "api"
   ],
-  "author": "",
+  "author": "quanganh208",
   "license": "MIT",
+  "homepage": "https://github.com/quanganh208/timo-bank#readme",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "git+https://github.com/quanganh208/timo-bank.git",
+    "directory": "packages/core"
+  },
+  "bugs": {
+    "url": "https://github.com/quanganh208/timo-bank/issues"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "devDependencies": {
     "rimraf": "^5.0.0",
