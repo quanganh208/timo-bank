@@ -1,6 +1,6 @@
 {
   "name": "@timo-bank/core",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Unofficial Timo Bank SDK - Core package",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
