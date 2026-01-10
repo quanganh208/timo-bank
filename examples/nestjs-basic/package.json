@@ -12,8 +12,8 @@
     "@nestjs/common": "^10.0.0",
     "@nestjs/core": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
-    "@timo-bank/core": "workspace:*",
-    "@timo-bank/nestjs": "workspace:*",
+    "@timo-bank/core": "^0.1.2",
+    "@timo-bank/nestjs": "^0.1.2",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.0"
   },

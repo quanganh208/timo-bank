@@ -9,7 +9,7 @@
     "dev": "tsx watch src/index.ts"
   },
   "dependencies": {
-    "@timo-bank/core": "workspace:*",
+    "@timo-bank/core": "^0.1.2",
     "express": "^4.18.0"
   },
   "devDependencies": {
