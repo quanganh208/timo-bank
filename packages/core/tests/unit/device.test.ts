@@ -2,7 +2,6 @@ import { describe, it, expect } from 'vitest';
 import {
   generateDeviceId,
   buildBrowserSignature,
-  getDefaultBrowserSignature,
   generateDeviceCredentials,
 } from '../../src/auth/device.js';
 import { createTestLogger } from '../utils/test-logger.js';
@@ -37,12 +36,12 @@ describe('device/generateDeviceId', () => {
 });
 
 describe('device/buildBrowserSignature', () => {
-  it('has correct format :WEB:OS:VERSION:WEB:device:browser', () => {
+  it('has correct format :WEB:WEB:VERSION:WEB:device:browser', () => {
     const start = Date.now();
     const sig = buildBrowserSignature();
 
-    // Format: :WEB:OS:297:WEB:desktop:browser
-    expect(sig).toMatch(/^:WEB:\w+:297:WEB:desktop:\w+$/);
+    // Format: :WEB:WEB:324:WEB:desktop:chrome
+    expect(sig).toMatch(/^:WEB:\w+:324:WEB:desktop:\w+$/);
     logger.pass(Date.now() - start, { signature: sig });
   });
 
@@ -51,9 +50,9 @@ describe('device/buildBrowserSignature', () => {
     expect(sig.startsWith(':WEB:')).toBe(true);
   });
 
-  it('contains version 297', () => {
+  it('contains version 324', () => {
     const sig = buildBrowserSignature();
-    expect(sig).toContain(':297:');
+    expect(sig).toContain(':324:');
   });
 
   it('contains desktop device type', () => {
@@ -62,11 +61,11 @@ describe('device/buildBrowserSignature', () => {
   });
 });
 
-describe('device/getDefaultBrowserSignature', () => {
-  it('returns Windows Chrome signature', () => {
-    const sig = getDefaultBrowserSignature();
+describe('device/buildBrowserSignature default value', () => {
+  it('returns the fixed web client signature', () => {
+    const sig = buildBrowserSignature();
 
-    expect(sig).toBe(':WEB:Windows:297:WEB:desktop:chrome');
+    expect(sig).toBe(':WEB:WEB:324:WEB:desktop:chrome');
   });
 });
 
@@ -90,7 +89,7 @@ describe('device/generateDeviceCredentials', () => {
   it('browserSignature has correct format', () => {
     const creds = generateDeviceCredentials();
 
-    expect(creds.browserSignature).toMatch(/^:WEB:\w+:297:WEB:desktop:\w+$/);
+    expect(creds.browserSignature).toMatch(/^:WEB:\w+:324:WEB:desktop:\w+$/);
   });
 
   it('produces unique deviceId each time', () => {

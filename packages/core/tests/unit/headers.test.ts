@@ -12,7 +12,7 @@ const logger = createTestLogger('headers');
 
 const testDeviceId = 'abc123def456abc123def456abc12345';
 const testTimoDeviceId = 'timo789xyz123abc456def789xyz1234';
-const testSignature = ':WEB:Windows:297:WEB:desktop:chrome';
+const testSignature = ':WEB:WEB:324:WEB:desktop:chrome';
 const testToken = 'testtoken123abc456';
 const testContextId = 'abcdef1234567890.uuid-here-1234';
 

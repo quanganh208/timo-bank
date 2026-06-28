@@ -1,5 +1,5 @@
 import { sha256, generateUUID } from '../utils/crypto.js';
-import { DEFAULT_BROWSER_SIGNATURE } from '../utils/constants.js';
+import { APP_VERSION, DEFAULT_BROWSER_SIGNATURE } from '../utils/constants.js';
 
 /**
  * Build device registration header value
@@ -14,10 +14,10 @@ export function buildDeviceReg(
 
 /**
  * Build context ID header value
- * Format: sha256(WEB.deviceId.297).uuid
+ * Format: sha256(WEB.deviceId.<APP_VERSION>).uuid
  */
 export function buildContextId(deviceId: string): string {
-  const inputString = `WEB.${deviceId}.297`;
+  const inputString = `WEB.${deviceId}.${APP_VERSION}`;
   const hashPart = sha256(inputString);
   const uuid = generateUUID();
   return `${hashPart}.${uuid}`;

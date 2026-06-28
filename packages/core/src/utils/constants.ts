@@ -5,9 +5,16 @@ export const API_BASE_URL = 'https://app2.timo.vn';
 export const API_HOSTNAME = 'app2.timo.vn';
 
 /**
- * Default browser signature format: :WEB:OS:VERSION:WEB:device:browser
+ * Timo web app version embedded in the device signature and context id.
+ * Bump when Timo updates their web client — a stale version is rejected at /login with code 6777.
  */
-export const DEFAULT_BROWSER_SIGNATURE = ':WEB:Windows:297:WEB:desktop:chrome';
+export const APP_VERSION = '324';
+
+/**
+ * Device signature sent in x-timo-devicereg.
+ * Format: :WEB:WEB:<APP_VERSION>:WEB:desktop:chrome (matches the official web client).
+ */
+export const DEFAULT_BROWSER_SIGNATURE = `:WEB:WEB:${APP_VERSION}:WEB:desktop:chrome`;
 
 /**
  * Encryption key seed for AES encryption of device ID.

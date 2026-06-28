@@ -156,7 +156,7 @@ export class LoginManager {
       throw new AuthError('Invalid phone number or password');
     }
 
-    throw new AuthError(response.message || 'Login failed');
+    throw new AuthError(response.message || `Login failed (code ${response.code})`);
   }
 
   private handleOtpResponse(response: ApiResponse<LoginResponseData>): SessionData {
