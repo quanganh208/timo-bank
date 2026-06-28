@@ -1,0 +1,71 @@
+name: Check Timo version
+
+on:
+  schedule:
+    - cron: '0 2 * * *' # daily 02:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Detect and patch Timo version
+        id: check
+        run: node scripts/check-timo-version.mjs --write
+
+      - name: Validate build and tests
+        if: steps.check.outputs.drift == 'true'
+        run: |
+          pnpm --filter @timo-bank/core --filter @timo-bank/nestjs build
+          pnpm -r test
+
+      - name: Open pull request
+        if: steps.check.outputs.drift == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          LATEST="${{ steps.check.outputs.latest }}"
+          CURRENT="${{ steps.check.outputs.current }}"
+          BRANCH="chore/timo-version-${LATEST}"
+          TITLE="fix(core): bump Timo APP_VERSION to ${LATEST}"
+          BODY="Timo's web client version changed from \`${CURRENT}\` to \`${LATEST}\`.
+
+          Detected automatically from the public web bundle. A stale APP_VERSION makes \`/login\` fail with code \`6777\`.
+
+          - Updated \`APP_VERSION\` in \`packages/core/src/utils/constants.ts\`
+          - Build and unit tests passed in CI
+
+          After merge, cut a patch release to publish the fix."
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add packages/core/src/utils/constants.ts
+          git commit -m "$TITLE"
+          git push -f origin "$BRANCH"
+
+          if gh pr view "$BRANCH" --json state --jq .state 2>/dev/null | grep -q OPEN; then
+            echo "PR already open for $BRANCH"
+          else
+            gh pr create --base master --head "$BRANCH" --title "$TITLE" --body "$BODY"
+          fi

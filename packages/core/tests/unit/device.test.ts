@@ -4,7 +4,12 @@ import {
   buildBrowserSignature,
   generateDeviceCredentials,
 } from '../../src/auth/device.js';
+import { APP_VERSION, DEFAULT_BROWSER_SIGNATURE } from '../../src/utils/constants.js';
 import { createTestLogger } from '../utils/test-logger.js';
+
+// Derive expectations from the source constants so an APP_VERSION bump
+// (e.g. an automated Timo-version PR) does not require touching these tests.
+const sigFormat = new RegExp(`^:WEB:\\w+:${APP_VERSION}:WEB:desktop:\\w+$`);
 
 const logger = createTestLogger('device');
 
@@ -40,8 +45,8 @@ describe('device/buildBrowserSignature', () => {
     const start = Date.now();
     const sig = buildBrowserSignature();
 
-    // Format: :WEB:WEB:324:WEB:desktop:chrome
-    expect(sig).toMatch(/^:WEB:\w+:324:WEB:desktop:\w+$/);
+    // Format: :WEB:WEB:<APP_VERSION>:WEB:desktop:chrome
+    expect(sig).toMatch(sigFormat);
     logger.pass(Date.now() - start, { signature: sig });
   });
 
@@ -50,9 +55,9 @@ describe('device/buildBrowserSignature', () => {
     expect(sig.startsWith(':WEB:')).toBe(true);
   });
 
-  it('contains version 324', () => {
+  it('contains the current APP_VERSION', () => {
     const sig = buildBrowserSignature();
-    expect(sig).toContain(':324:');
+    expect(sig).toContain(`:${APP_VERSION}:`);
   });
 
   it('contains desktop device type', () => {
@@ -65,7 +70,7 @@ describe('device/buildBrowserSignature default value', () => {
   it('returns the fixed web client signature', () => {
     const sig = buildBrowserSignature();
 
-    expect(sig).toBe(':WEB:WEB:324:WEB:desktop:chrome');
+    expect(sig).toBe(DEFAULT_BROWSER_SIGNATURE);
   });
 });
 
@@ -89,7 +94,7 @@ describe('device/generateDeviceCredentials', () => {
   it('browserSignature has correct format', () => {
     const creds = generateDeviceCredentials();
 
-    expect(creds.browserSignature).toMatch(/^:WEB:\w+:324:WEB:desktop:\w+$/);
+    expect(creds.browserSignature).toMatch(sigFormat);
   });
 
   it('produces unique deviceId each time', () => {

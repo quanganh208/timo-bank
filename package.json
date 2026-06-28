@@ -19,6 +19,7 @@
     "format": "prettier --write \"packages/**/*.ts\"",
     "clean": "pnpm -r clean",
     "typecheck": "pnpm -r typecheck",
+    "check:timo-version": "node scripts/check-timo-version.mjs",
     "version:patch": "pnpm -r exec -- npm version patch --no-git-tag-version",
     "version:minor": "pnpm -r exec -- npm version minor --no-git-tag-version",
     "version:major": "pnpm -r exec -- npm version major --no-git-tag-version",
