@@ -8,7 +8,7 @@ export const API_HOSTNAME = 'app2.timo.vn';
  * Timo web app version embedded in the device signature and context id.
  * Bump when Timo updates their web client — a stale version is rejected at /login with code 6777.
  */
-export const APP_VERSION = '324';
+export const APP_VERSION = '325';
 
 /**
  * Device signature sent in x-timo-devicereg.
