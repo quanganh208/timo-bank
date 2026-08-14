@@ -38,7 +38,7 @@ jobs:
           pnpm --filter @timo-bank/core --filter @timo-bank/nestjs build
           pnpm -r test
 
-      - name: Open pull request
+      - name: Open and merge pull request
         if: steps.check.outputs.drift == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -54,6 +54,7 @@ jobs:
 
           - Updated \`APP_VERSION\` in \`packages/core/src/utils/constants.ts\`
           - Build and unit tests passed in CI
+          - This PR was merged automatically; older superseded drift PRs were closed
 
           After merge, cut a patch release to publish the fix."
 
@@ -69,3 +70,15 @@ jobs:
           else
             gh pr create --base master --head "$BRANCH" --title "$TITLE" --body "$BODY"
           fi
+
+          # Close older drift PRs superseded by this bump
+          gh pr list --state open --json number,headRefName \
+            --jq '.[] | select(.headRefName | startswith("chore/timo-version-")) | "\(.number) \(.headRefName)"' \
+          | while read -r num head; do
+              if [ "$head" != "$BRANCH" ]; then
+                gh pr close "$num" --comment "Superseded by the bump to ${LATEST}." --delete-branch || true
+              fi
+            done
+
+          # Build and tests already passed above, so merge without waiting for review
+          gh pr merge "$BRANCH" --squash --delete-branch
